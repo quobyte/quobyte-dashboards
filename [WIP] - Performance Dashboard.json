@@ -1,49 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS_(FREENET)",
-      "label": "Prometheus (Freenet)",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)",
-      "label": "Thanos (was http://thanos-query.default.svc.cluster.local:19191)",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.0.1"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -63,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 165,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -83,7 +38,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -161,7 +116,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "avg(quobyte_server_cpu_load{quobyte_cluster=\"$cluster\"} / quobyte_server_num_cores) by (hostname)",
@@ -177,7 +132,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 7,
@@ -215,7 +170,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -293,7 +248,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "irate(quobyte_service_major_page_fault_count{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
@@ -309,7 +264,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -334,7 +289,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -412,7 +367,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"} / quobyte_jvm_memory_heap_max_bytes",
@@ -429,7 +384,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -454,7 +409,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -532,7 +487,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_blockreader_lookup_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, hostname))",
@@ -548,7 +503,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -573,7 +528,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -652,7 +607,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_update_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
@@ -668,7 +623,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -693,7 +648,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -771,7 +726,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_roundtrip_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
@@ -787,7 +742,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -812,7 +767,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -854,8 +809,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -890,7 +844,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_processing_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
@@ -906,7 +860,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -931,7 +885,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -973,8 +927,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1009,7 +962,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "irate(quobyte_rpc_server_rpcs_received{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
@@ -1025,7 +978,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1050,7 +1003,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -1093,8 +1046,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1128,7 +1080,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "irate(quobyte_rpc_server_total_global_blocked_connections{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
@@ -1144,7 +1096,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1169,7 +1121,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -1212,8 +1164,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1247,7 +1198,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_db_checkpointing_backpressure_queue_full_errors{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (hostname)",
@@ -1263,7 +1214,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1301,7 +1252,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1343,8 +1294,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1379,7 +1329,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"} / quobyte_jvm_memory_heap_max_bytes",
@@ -1396,7 +1346,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1421,7 +1371,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -1464,8 +1414,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1499,7 +1448,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "irate(quobyte_rpc_server_blocked_connection_duration_normal_high_micros_count{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[5m])",
@@ -1515,7 +1464,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "description": "",
       "gridPos": {
@@ -1541,7 +1490,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1583,8 +1532,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1618,7 +1566,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(quobyte_osd_preproc_open_files{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}) by (hostname)",
@@ -1634,7 +1582,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "description": "",
       "gridPos": {
@@ -1660,7 +1608,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "",
       "fieldConfig": {
@@ -1703,8 +1651,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1739,7 +1686,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "topk(10, rate(quobyte_osd_storage_busy_time_millis{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[10m]) / 1000) > 0.90",
@@ -1755,7 +1702,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1780,7 +1727,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1822,8 +1769,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1858,7 +1804,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile($percentile, sum(irate(quobyte_osd_replication_roundtrip_latency_micros_bucket{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[5m])) by (le, hostname))",
@@ -1874,7 +1820,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+        "uid": "UpqnkB9Gz"
       },
       "gridPos": {
         "h": 8,
@@ -1899,7 +1845,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "Interprets device latency reads from data service.\n\nYou should be able to identify saturated disks.",
       "fieldConfig": {
@@ -1942,8 +1888,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1977,7 +1922,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"1000\"}[5m]))",
@@ -1989,7 +1934,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"10\"}[5m]))",
@@ -2002,7 +1947,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"10000000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m]))",
@@ -2019,7 +1964,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS_(FREENET)}"
+        "uid": "${ds}"
       },
       "description": "Interprets devicewrite latency from data service.\n\nYou should be able to identify saturated disks.",
       "fieldConfig": {
@@ -2062,8 +2007,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2098,7 +2042,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"1000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"10\"}[5m]))",
@@ -2111,7 +2055,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"1000\"}[5m]))",
@@ -2123,7 +2067,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS_(FREENET)}"
+            "uid": "${ds}"
           },
           "editorMode": "code",
           "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"10000000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"100000\"}[5m]))",
@@ -2146,9 +2090,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "Prometheus (Freenet)",
-          "value": "Prometheus (Freenet)"
+          "selected": true,
+          "text": "Quobyte Prometheus",
+          "value": "Quobyte Prometheus"
         },
         "hide": 0,
         "includeAll": false,
@@ -2164,10 +2108,14 @@
         "type": "datasource"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "prod",
+          "value": "prod"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS_(FREENET)}"
+          "uid": "${ds}"
         },
         "definition": "label_values(quobyte_cluster)",
         "hide": 0,
