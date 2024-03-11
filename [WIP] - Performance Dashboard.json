@@ -1,4 +1,49 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS_(FREENET)",
+      "label": "Prometheus (Freenet)",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)",
+      "label": "Thanos (was http://thanos-query.default.svc.cluster.local:19191)",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.0.1"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,11 +63,12 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 159,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -30,13 +76,14 @@
         "y": 0
       },
       "id": 1,
+      "panels": [],
       "title": "General Cluster Resources",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -114,10 +161,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "avg(quobyte_server_cpu_load / quobyte_server_num_cores) by(hostname)",
+          "expr": "avg(quobyte_server_cpu_load{quobyte_cluster=\"$cluster\"} / quobyte_server_num_cores) by (hostname)",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -130,7 +177,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 7,
@@ -168,7 +215,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "description": "",
       "fieldConfig": {
@@ -246,10 +293,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "irate(quobyte_service_major_page_fault_count{service_type=\"quobyte-metadata\"}[5m])",
+          "expr": "irate(quobyte_service_major_page_fault_count{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -262,7 +309,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -287,7 +334,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -365,10 +412,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-metadata\"} / quobyte_jvm_memory_heap_max_bytes",
+          "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"} / quobyte_jvm_memory_heap_max_bytes",
           "instant": false,
           "interval": "",
           "legendFormat": "{{value}} {{hostname}} ",
@@ -382,7 +429,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -407,7 +454,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -485,10 +532,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_blockreader_lookup_latency_micros_bucket{service_type=\"quobyte-metadata\"}[5m])) by (le, hostname))",
+          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_blockreader_lookup_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, hostname))",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -501,7 +548,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -526,7 +573,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "description": "",
       "fieldConfig": {
@@ -605,10 +652,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_update_latency_micros_bucket{service_type=\"quobyte-metadata\"}[5m])) by (le, device_id, hostname))",
+          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_update_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
           "instant": false,
           "legendFormat": "{{hostname}} {{device_id}}",
           "range": true,
@@ -621,7 +668,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -646,7 +693,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -724,10 +771,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_roundtrip_latency_micros_bucket{service_type=\"quobyte-metadata\"}[5m])) by (le, device_id, hostname))",
+          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_roundtrip_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
           "instant": false,
           "legendFormat": "{{hostname}} => {{device_id}}",
           "range": true,
@@ -740,7 +787,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -765,7 +812,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -843,10 +890,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_processing_latency_micros_bucket{service_type=\"quobyte-metadata\"}[5m])) by (le, device_id, hostname))",
+          "expr": "histogram_quantile($percentile, sum(irate(quobyte_db_replication_backup_processing_latency_micros_bucket{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (le, device_id, hostname))",
           "instant": false,
           "legendFormat": "{{hostname}} {{device_id}}",
           "range": true,
@@ -859,7 +906,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -884,7 +931,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -962,10 +1009,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "irate(quobyte_rpc_server_rpcs_received{service_type=\"quobyte-metadata\"}[5m])",
+          "expr": "irate(quobyte_rpc_server_rpcs_received{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -978,7 +1025,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -1003,7 +1050,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "description": "",
       "fieldConfig": {
@@ -1081,10 +1128,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "irate(quobyte_rpc_server_total_global_blocked_connections{service_type=\"quobyte-metadata\"}[5m])",
+          "expr": "irate(quobyte_rpc_server_total_global_blocked_connections{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -1097,7 +1144,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -1105,7 +1152,7 @@
         "x": 13,
         "y": 65
       },
-      "id": 23,
+      "id": 35,
       "options": {
         "code": {
           "language": "plaintext",
@@ -1122,7 +1169,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "description": "",
       "fieldConfig": {
@@ -1200,10 +1247,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "sum(irate(quobyte_db_checkpointing_backpressure_queue_full_errors{service_type=\"quobyte-metadata\"}[5m])) by (hostname)",
+          "expr": "sum(irate(quobyte_db_checkpointing_backpressure_queue_full_errors{service_type=\"quobyte-metadata\", quobyte_cluster=\"$cluster\"}[5m])) by (hostname)",
           "instant": false,
           "legendFormat": "{{hostname}}",
           "range": true,
@@ -1216,7 +1263,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
       },
       "gridPos": {
         "h": 8,
@@ -1254,7 +1301,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1310,8 +1357,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 17,
+        "h": 8,
+        "w": 13,
         "x": 0,
         "y": 82
       },
@@ -1332,10 +1379,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${ds}"
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
           },
           "editorMode": "code",
-          "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-data\"} / quobyte_jvm_memory_heap_max_bytes",
+          "expr": "quobyte_jvm_memory_heap_used_bytes{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"} / quobyte_jvm_memory_heap_max_bytes",
           "instant": false,
           "interval": "",
           "legendFormat": "{{value}} {{hostname}} ",
@@ -1345,9 +1392,753 @@
       ],
       "title": "Data Heap Memory Usage",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 13,
+        "y": 82
+      },
+      "id": 31,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "If heap usage is at 100% for a longer period of time, increase heap space.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "title": "Data Heap Memory Usage",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 90
+      },
+      "id": 32,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "irate(quobyte_rpc_server_blocked_connection_duration_normal_high_micros_count{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[5m])",
+          "instant": false,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Backpressure by Admission Control",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 13,
+        "y": 90
+      },
+      "id": 33,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Incoming request cannot be handled because of backpressure. This can be due to busy devices or buffer memory limits.\n\nIf devices are not saturated, increase MAX_BUFFER_DATA.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "title": "Backpressure by Admission Control",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 98
+      },
+      "id": 39,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(quobyte_osd_preproc_open_files{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}) by (hostname)",
+          "instant": false,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Number of open files",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 13,
+        "y": 98
+      },
+      "id": 40,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Displays the number of open files per host.\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "title": "Number of open files",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 106
+      },
+      "id": 34,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "topk(10, rate(quobyte_osd_storage_busy_time_millis{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[10m]) / 1000) > 0.90",
+          "instant": false,
+          "legendFormat": "{{device_id}} ({{device_hardware_type}})",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Saturated devices",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 13,
+        "y": 106
+      },
+      "id": 23,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Displays devices that show high utilization over time.\nDevices shown here can be considered a bottleneck. \n\nUse more devices e.g by increasing stripe width or use faster devices.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "title": "Saturated devices",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "µs"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 114
+      },
+      "id": 36,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile($percentile, sum(irate(quobyte_osd_replication_roundtrip_latency_micros_bucket{service_type=\"quobyte-data\", quobyte_cluster=\"$cluster\"}[5m])) by (le, hostname))",
+          "instant": false,
+          "legendFormat": "{{hostname}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Replication Roundtrip Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THANOS_(WAS HTTP://THANOS-QUERY.DEFAULT.SVC.CLUSTER.LOCAL:19191)}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 13,
+        "y": 114
+      },
+      "id": 38,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Replication latency measured by the primary, ie. network roundtrip and backup persistence.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.0.1",
+      "title": "Replication Roundtrip Latency",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "description": "Interprets device latency reads from data service.\n\nYou should be able to identify saturated disks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 122
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"1000\"}[5m]))",
+          "instant": false,
+          "legendFormat": "device reads normal",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"10\"}[5m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "cache reads",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"10000000\"}[5m])) - sum(irate(quobyte_osd_storage_device_read_latency_micros_bucket{le=\"100000\"}[5m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "device reads busy",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Read Bands: Page Cache, Device Reads Relaxed, Device Reads Busy",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_(FREENET)}"
+      },
+      "description": "Interprets devicewrite latency from data service.\n\nYou should be able to identify saturated disks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 130
+      },
+      "id": 28,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"1000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"10\"}[5m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "device writes unexpected fast",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"100000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"1000\"}[5m]))",
+          "instant": false,
+          "legendFormat": "device writes normal",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_(FREENET)}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"10000000\"}[5m])) - sum(irate(quobyte_osd_storage_device_write_latency_micros_bucket{le=\"100000\"}[5m]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "device writes busy",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Write Bands: Device Writes Relaxed, Device Writes Busy",
+      "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1355,9 +2146,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "",
-          "value": ""
+          "selected": false,
+          "text": "Prometheus (Freenet)",
+          "value": "Prometheus (Freenet)"
         },
         "hide": 0,
         "includeAll": false,
@@ -1371,6 +2162,29 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS_(FREENET)}"
+        },
+        "definition": "label_values(quobyte_cluster)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(quobyte_cluster)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       },
       {
         "current": {
@@ -1418,8 +2232,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Performance Dashboard",
-  "uid": "f8afbe5f-ec74-45d1-996e-7d0902ce03c4",
-  "version": 22,
+  "title": "Performance Dashboard Data",
+  "uid": "e541c643-de7a-4a18-bf93-c2c511df56a2",
+  "version": 16,
   "weekStart": ""
 }
