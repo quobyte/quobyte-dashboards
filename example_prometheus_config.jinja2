@@ -1,0 +1,69 @@
+# my global config
+global:
+  scrape_interval: 60s 		# On large Quobyte clusters something like 180s works better for medium-size Prometheus hardware.
+  evaluation_interval: 60s 	# Same value as scraping interval.
+  # scrape_timeout is set to the global default (10s).
+  scrape_timeout: 20s		# It can take some time to scrape a few thousand targets with a lot of metrics.
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "capacity_aggregated.yaml"	# We aggregate all our storage devices capacity to have them accessible as a fast and simple metric
+  - "usage_aggregated.yaml"	# We aggregate all our storage devices usage to have them accessible as a fast and simple metric
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ["localhost:9090"]
+  # Comment that job section out if you do not have a node exporter running on the Prometheus node
+  - job_name: "node exporter"
+    static_configs:
+      - targets: ["localhost:9100"]
+  # This is our Quobyte cluster.
+  - job_name: "quobyte"
+    metrics_path: /prometheus
+    consul_sd_configs:
+      - server: {{ registry }}:7871
+        datacenter: large
+# By defining single services we want to scrape we can for example decide *not* to scrape client data.
+# If you want to scrape all data from all services simply leave the services section out.
+        services:
+          - quobyte-registry	
+          - quobyte-api		
+          - quobyte-metadata	
+          - quobyte-data	
+          - quobyte-webconsole	
+##          - quobyte-client	
+# If you are running multiple Quobyte clusters it is convenient to have the label "quobyte_cluster" available.
+# This is also used in the Grafana Quobyte dashboard.
+# The same applies for service_type and instance labels.
+    relabel_configs:
+      - source_labels: [job]
+        target_label: quobyte_cluster
+      - source_labels: [__meta_consul_service]
+        target_label: service_type
+      - source_labels: [__meta_consul_service_address]
+        target_label: instance
+# "executor" metrics are memory hungry and only necessary for debugging purposes, so we drop them.
+    metric_relabel_configs:
+      - source_labels: [executor]
+        regex: '.+'
+        action: drop
+# Latency buckets are very expensive historgrams, so you can skip storing them.
+      - source_labels: [__name__]
+        regex: '.*roundtrip_latency_bucket.*'
+        action: drop
+
+
