@@ -13,9 +13,9 @@ alerting:
           # - alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-  - "capacity_aggregated.yaml"	# We aggregate all our storage devices capacity to have them accessible as a fast and simple metric
-  - "usage_aggregated.yaml"	# We aggregate all our storage devices usage to have them accessible as a fast and simple metric
+#rule_files:
+#  - "capacity_aggregated.yaml"	# We aggregate all our storage devices capacity to have them accessible as a fast and simple metric
+#  - "usage_aggregated.yaml"	# We aggregate all our storage devices usage to have them accessible as a fast and simple metric
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
